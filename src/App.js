@@ -5,16 +5,23 @@ import PrivatePage from './components/PrivatePage/index';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {PrivateRoute} from './components/PrivateRoute';
 import {LandingPageRoute} from './components/LandingPageRoute';
+import { ApolloProvider,ApolloClient,InMemoryCache } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: "https://sxewr.sse.codesandbox.io/",
+  cache: new InMemoryCache()
+});
 function App() {
   return (
-
-    <Router>
-        <Switch>
-            <LandingPageRoute exact path="/" component={Login} />
-            <PrivateRoute exact path="/private" component={PrivatePage} />
-            <Route path="*" component={() => "404 NOT FOUND"} />
-        </Switch>
-    </Router>
+    <ApolloProvider client={client}>
+      <Router>
+          <Switch>
+              <LandingPageRoute exact path="/" component={Login} />
+              <PrivateRoute exact path="/private" component={PrivatePage} />
+              <Route path="*" component={() => "404 NOT FOUND"} />
+          </Switch>
+      </Router>
+    </ApolloProvider>
   );
 }
 

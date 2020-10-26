@@ -48,17 +48,18 @@ export default function SignIn(props) {
     const classes = useStyles();
     const [email,setEmail] = useState('');
     const [passWord,setPassWord] = useState('');
-    const [setLogin] = useMutation(SET_LOGIN)
+    const [setLogin] = useMutation(SET_LOGIN);
+
     function handleSubmit(event){
         event.preventDefault();
-        setLogin({variables:{data:{email:email,password:passWord}}}).then(res =>{
+        // setLogin({variables:{data:{email:email,password:passWord}}}).then(res =>{
             auth.login(()=>{
-                console.log(res)
+                // console.log(res)
                 props.history.push("/private")
             })
-        }).catch(err =>{
-            console.log(err)
-        })
+        // }).catch(err =>{
+        //     console.log(err)
+        // })
 
     }
 
