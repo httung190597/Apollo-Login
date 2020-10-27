@@ -2,17 +2,17 @@ import React,{useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import auth from './../auth'
+import auth from './../auth';
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import {
-    ApolloClient,
-    InMemoryCache,
-    ApolloProvider,
-    useQuery,
+    // ApolloClient,
+    // InMemoryCache,
+    // ApolloProvider,
+    // useQuery,
     useMutation,
     gql
   } from "@apollo/client";
@@ -52,14 +52,18 @@ export default function SignIn(props) {
 
     function handleSubmit(event){
         event.preventDefault();
-        // setLogin({variables:{data:{email:email,password:passWord}}}).then(res =>{
+        // var data = {};
+        // data.email = email;
+        // data.passWord = passWord
+        // setLogin({variables:{data:data}}).then(res =>{
+        setLogin({variables:{email:email,password:passWord}}).then(res =>{
             auth.login(()=>{
-                // console.log(res)
+                console.log(res)
                 props.history.push("/private")
             })
-        // }).catch(err =>{
-        //     console.log(err)
-        // })
+        }).catch(err =>{
+            console.log(err)
+        })
 
     }
 
@@ -82,44 +86,43 @@ export default function SignIn(props) {
             <Typography component="h1" variant="h5">
                 Sign in
             </Typography>
-            <form className={classes.form}>
-                <TextField
+            <ValidatorForm className={classes.form} onSubmit={(event) => handleSubmit(event)}>
+                <TextValidator
                     value={email}
                     onChange={(event) => handleChange(event)}
                     variant="outlined"
                     margin="normal"
-                    required
                     fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    // autoComplete="email"
                     autoFocus
+                    type="email"
+                    label="Email"
+                    name="email"
+                    validators={['required', 'isEmail']}
+                    errorMessages={['this field is required', 'Email is not valid']}
                 />
-                <TextField
+                <TextValidator
                     value={passWord}
                     onChange={(event) => handleChange(event)}
                     variant="outlined"
                     margin="normal"
-                    required
                     fullWidth
-                    name="password"
-                    label="Password"
                     type="password"
-                    id="password"
-                    // autoComplete="current-password"
+                    label="Password"
+                    name="password"
+                    validators={['required']}
+                    errorMessages={['this field is required']}
                 />
                 <Button
-                    // type="submit"
+                    type="submit"
                     fullWidth
                     variant="contained"
                     color="primary"
-                    onClick={(event) => handleSubmit(event)}
+                    // onClick={(event) => handleSubmit(event)}
                     className={classes.submit}
                 >
                     Sign In
                 </Button>
-            </form>
+            </ValidatorForm>
         </div>
         </Container>
     );

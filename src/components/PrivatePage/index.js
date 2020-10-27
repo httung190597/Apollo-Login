@@ -1,25 +1,40 @@
 import React from 'react';
 import auth from './../auth';
 import Button from '@material-ui/core/Button';
-
-
+import {
+    useMutation,
+    gql
+  } from "@apollo/client";
+const LOG_OUT = gql`
+    mutation {
+        logout{
+            isSuccess
+            message
+        }
+    }
+`
 
 function PrivatePage(props) {
-    function logOut(event){
+    const [logOut] = useMutation(LOG_OUT);
+    function handleLogOut(event){
         event.preventDefault();
-        auth.logout(()=>{
-            props.history.push("/")
+        logOut().then(res =>{
+            console.log(res)
+            auth.logout(()=>{
+                props.history.push("/")
+            })
+        }).catch(err =>{
+            console.log(err)
         })
+        
     }
     return (
         <div>
             <h2>Private Page</h2>
             <Button
-                    type="submit"
-                    
                     variant="contained"
                     color="primary"
-                    onClick={(event) => logOut(event)}
+                    onClick={(event) => handleLogOut(event)}
                 >
                     Log Out
             </Button>
