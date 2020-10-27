@@ -1,9 +1,10 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import auth from './../auth';
 import Button from '@material-ui/core/Button';
 import {
     useMutation,
-    gql
+    gql,
+    useQuery
   } from "@apollo/client";
 const LOG_OUT = gql`
     mutation {
@@ -12,10 +13,23 @@ const LOG_OUT = gql`
             message
         }
     }
-`
+`;
+const USER = gql`
+    query {
+        me {
+            email
+        }
+    }
+`;
 
 function PrivatePage(props) {
     const [logOut] = useMutation(LOG_OUT);
+    const [user] = useQuery(USER)
+    useEffect(()=>{
+        user().then(res=>{
+            console.log(res)
+        })
+    },[])
     function handleLogOut(event){
         event.preventDefault();
         logOut().then(res =>{
