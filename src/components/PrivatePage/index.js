@@ -15,7 +15,7 @@ const LOG_OUT = gql`
     }
 `;
 const USER = gql`
-    query {
+    {
         me {
             email
         }
@@ -24,11 +24,9 @@ const USER = gql`
 
 function PrivatePage(props) {
     const [logOut] = useMutation(LOG_OUT);
-    const [user] = useQuery(USER)
+    const {loading,error,data} = useQuery(USER)
     useEffect(()=>{
-        user().then(res=>{
-            console.log(res)
-        })
+        console.log(data)
     },[])
     function handleLogOut(event){
         event.preventDefault();

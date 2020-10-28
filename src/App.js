@@ -8,18 +8,19 @@ import {LandingPageRoute} from './components/LandingPageRoute';
 import { ApolloProvider,ApolloClient,InMemoryCache } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
-  cache: new InMemoryCache()
+  uri: "http://10.1.16.186:8080/graphql",
+  cache: new InMemoryCache(),
+  credentials: "include",
 });
 function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-          <Switch>
-              <LandingPageRoute exact path="/" component={Login} />
-              <PrivateRoute exact path="/private" component={PrivatePage} />
-              <Route path="*" component={() => "404 NOT FOUND"} />
-          </Switch>
+        <Switch>
+          <LandingPageRoute exact path="/" component={Login} />
+          <PrivateRoute exact path="/private" component={PrivatePage} />
+          <Route path="*" component={() => "404 NOT FOUND"} />
+        </Switch>
       </Router>
     </ApolloProvider>
   );

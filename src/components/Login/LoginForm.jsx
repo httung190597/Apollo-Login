@@ -57,10 +57,16 @@ export default function SignIn(props) {
         // data.passWord = passWord
         // setLogin({variables:{data:data}}).then(res =>{
         setLogin({variables:{email:email,password:passWord}}).then(res =>{
-            auth.login(()=>{
-                console.log(res)
-                props.history.push("/private")
-            })
+            if(res.data.logIn.isSuccess){
+                auth.login(()=>{
+                    console.log(res)
+                    props.history.push("/private")
+                })
+            }
+            else{
+                alert("tai khoan hoac mat khau khong dung")
+            }
+
         }).catch(err =>{
             console.log(err)
         })
